@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Devlog &mdash; Stone Toad</title>
-<meta name="description" content="Notes from building Stone Toad's games in the open.">
+<meta name="description" content="Building Garbage Route in the open. Code, screw-ups, and notes on the Linux machines I build on.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
 <!-- open graph / link previews -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Devlog — Stone Toad">
-<meta property="og:description" content="Notes from building Stone Toad's games in the open.">
+<meta property="og:description" content="Building Garbage Route in the open. Code, screw-ups, and notes on the Linux machines I build on.">
 <meta property="og:image" content="https://elwoodradley.github.io/og.png">
 <meta property="og:url" content="https://elwoodradley.github.io/devlog/">
 <meta name="twitter:card" content="summary_large_image">
@@ -37,33 +37,409 @@
   <main>
     <h1>Devlog</h1>
     <p class="lead">Building in the open. Code, screw-ups, and some nerdy notes on the
-    Linux machines I like building on.</p>
+    Linux machines I like building on. Click a day to read it.</p>
 
-    <!-- To add a post: copy one .row block, change the title/date/blurb,
-         and (optionally) link it to its own page in this folder. -->
+    <details class="logentry">
+      <summary>Day 13 <span class="log-date">June 16, 2026</span> &mdash; dressing the road, houses in, UI locked</summary>
+      <div class="logentry-body">
+        <h3>what I built</h3>
+        <ul>
+          <li>Tracked down a stray ColorRect that was parented under the Truck and rendering as a bright bar across the scene. It moved with the truck because it was a child of it. Deleted it. The truck's actual visual is the Sprite2D underneath.</li>
+          <li>Sorted the road laning for real: truck drives the right lane (x=0), yellow center line to its left, curb and houses on its right where the stops live, which is the side a garbage truck actually services.</li>
+          <li>Finished dressing the road for all six built stops so the truck drives a continuous route with no gaps.</li>
+          <li>Placed Luiz's house variants along the right side behind the sidewalk, scattered with some irregularity so it doesn't read as a repeating wall.</li>
+          <li>Did a UI pass and called it. Left the portrait and text block where they are, it's in a good spot.</li>
+        </ul>
+        <h3>what I learned</h3>
+        <ul>
+          <li>A node parented to the truck travels with the truck. Obvious in hindsight, but it's why that bar tracked the movement and looked like it belonged to the world when it didn't.</li>
+          <li>"Truck at x=0" doesn't force a symmetric road. You paint more tiles on one side of the line than the other, so x=0 lands in the right lane while the road stays believable around it.</li>
+          <li>Knowing when to stop. The UI was good enough to move on from, and the road only needs to serve the six stops that exist, not the whole eventual route.</li>
+        </ul>
+        <h3>what's next</h3>
+        <ul>
+          <li>Trash bins at the curb as the visual cue for each pickup point (need to confirm the bin sprite first)</li>
+          <li>Headlight/lighting pass over the dressed road</li>
+          <li>Keep building stops past 6</li>
+        </ul>
+        <h3>how it felt</h3>
+        <p>Good kind of session. Most of it was the unglamorous stuff, hunting a leftover node and painting tiles, but the scene finally reads as a place instead of a truck floating on black. The composition works now. That's the payoff for the boring work.</p>
+      </div>
+    </details>
 
-    <a class="row" href="#">
-      <span class="row-title">Teaching the route a third verb</span>
-      <span class="row-meta"> &nbsp; 2026&middot;06&middot;16</span>
-      <p class="row-desc">INTERVENE goes into stop_point.gd. A mercy option that
-      moves the cost somewhere else instead of removing it. Notes on wiring the third
-      choice without breaking the two that already work.</p>
-    </a>
+    <details class="logentry">
+      <summary>Day 12 <span class="log-date">June 11, 2026</span> &mdash; art assets, the camera (again)</summary>
+      <div class="logentry-body">
+        <p>Tonight was about getting the art assets in. First, though, the camera broke again — it wasn't following the truck. Dropped a print statement in to see what the camera and the truck were actually doing, and it turned out they'd matched the whole time: truck at zero, camera at zero. So it was never the camera. The sprite had drifted off on its own. Pulled it back, fixed.</p>
+        <p>Then I started painting the road and sidewalk in the editor. The truck's in the right lane, since that's the side a garbage truck actually works, with the sidewalk on the right where the stops will go. Coming along. Headlights next.</p>
+      </div>
+    </details>
 
-    <a class="row" href="#">
-      <span class="row-title">A scratch Void install on a Let&rsquo;s Note</span>
-      <span class="row-meta"> &nbsp; 2026&middot;06&middot;15</span>
-      <p class="row-desc">The CF-SZ6 is now a writing machine. Full from-scratch Void
-      install, the suspend fix, and why the travel laptop earns its keep.</p>
-    </a>
+    <details class="logentry">
+      <summary>Day 11 <span class="log-date">June 6, 2026</span> &mdash; first full stop, end to end</summary>
+      <div class="logentry-body">
+        <h3>what I built</h3>
+        <p>Finally got one full stop built end to end. The bags stop, Stop 1, and I think it's close to final. The whole loop works now: drive up, the scene pops, investigate through the pages, then the choices come up and you pick one and it shows you what happened. Took a lot of back and forth to get there, but it actually plays now instead of just sitting in a doc. Also did a real pass on the prose for the stops, which is turning into the fun part.</p>
+        <h3>what I learned</h3>
+        <p>Spent most of the last couple days learning GDScript instead of building, and it was worth it. I'm a lot more comfortable writing the code now and actually knowing what things do instead of just pasting and hoping. Learned the difference between a variable and a parameter, what the dot actually means when you reach into another node, why node names and variable names are different things, and how to read an error instead of panicking at it. Fixed a few of my own bugs this session just by reading what the error was telling me, which felt different than before.</p>
+        <h3>what's next</h3>
+        <p>Twelve more stops to build out. The system works, so now it's mostly filling in each stop's writing and giving every one the same pass I gave the bags. Sound, the ending system, and the lighting all come later once the stops are in.</p>
+        <h3>how it felt</h3>
+        <p>Good. Slower than I wanted, but the kind of slow that pays off. Watching a stop I'd only ever read on a page actually run in the dark felt like the first time this thing has been a real game and not just notes. The prose is getting fun to write, which I didn't expect. Feeling more like a developer and less like someone copying a developer.</p>
+      </div>
+    </details>
 
-    <a class="row" href="#">
-      <span class="row-title">Witness horror, stated plainly</span>
-      <span class="row-meta"> &nbsp; 2026&middot;06&middot;10</span>
-      <p class="row-desc">What &ldquo;the player is the last mechanism of acknowledgment&rdquo;
-      actually means once it&rsquo;s code: a log autoload, hidden counters, and four to
-      six endings nobody can see coming.</p>
-    </a>
+    <details class="logentry">
+      <summary>Day 10 <span class="log-date">June 1, 2026</span> &mdash; the third verb</summary>
+      <div class="logentry-body">
+        <h3>what I built</h3>
+        <ul>
+          <li>Rebuilding stops with new mechanics. I have a clearer vision now of what to make the game.</li>
+          <li>Added a third verb, stop-specific, that either rewards or hurts the player: a deeper investigation into each stop.</li>
+        </ul>
+        <h3>what I learned</h3>
+        <ul>
+          <li>I was right that the game was missing something. It was missing that third verb option to delve deeper into the stops.</li>
+          <li>This isn't a game someone sinks 10 or even 5 hours into. It's a quick 1-2 hour run that's fun and gets you Steam achievements.</li>
+        </ul>
+        <h3>what's next</h3>
+        <ul>
+          <li>Finish auditing the tells on Stops 3-6</li>
+          <li>Build the consequence systems (headlight dimming is cheapest and most fitting, start there)</li>
+          <li>Need more COMPLETE/leave stops; right now the split is lopsided toward log</li>
+          <li>Playtest on a real person</li>
+        </ul>
+        <h3>how it felt</h3>
+        <p>Felt good. What's in my mind is concrete right now, and I think this will be the fully shipped game idea. I have to remember, this is my first game. It's not going to be a masterpiece and it doesn't need to be.</p>
+      </div>
+    </details>
+
+    <details class="logentry">
+      <summary>Day 09 <span class="log-date">May 31, 2026</span> &mdash; the rule that makes the choices mean something</summary>
+      <div class="logentry-body">
+        <h3>what I built</h3>
+        <ul>
+          <li>Finished the complete testable slice last session (6 stops, drive → investigate → log/leave → clock-out ending). This session was mostly design and writing.</li>
+          <li>Locked the core rule that decides whether log or leave is correct at each stop</li>
+          <li>Re-audited Stops 1 and 2 so the rule is actually readable in the text</li>
+          <li>Added the truck sprite (placeholder) and recorded a sneak-peek clip with sound</li>
+          <li>Wrote the Steam store blurb</li>
+        </ul>
+        <h3>the rule (finally)</h3>
+        <p>The thing I'd been circling for a while: the choices needed a logic the player could actually learn, or it's just a coin flip with a death screen. Got it.</p>
+        <p>Every stop is either COMPLETE or UNFINISHED.</p>
+        <ul>
+          <li>Complete: it's at peace, nothing missing, it wants nothing. Leave it. Logging it disturbs a stable thing.</li>
+          <li>Unfinished: it's still reaching for something. Log it to freeze it where it is. Leave it and it goes and completes itself, and the cost lands on someone.</li>
+        </ul>
+        <p>The skill is reading which one you're looking at. The tell is in the text, stated as flatly as everything else, so a careful reader catches it and a careless one doesn't. Solvable, but you'll get a couple wrong, which is the point.</p>
+        <h3>consequences</h3>
+        <p>Mostly you don't die. Wrong calls degrade the night instead: headlights shrink, the route stops making sense, things you mishandled come back changed. A few stops can kill you outright, kept rare so it stays tense. Your ending depends on what kind of driver you turned out to be.</p>
+        <h3>what I learned</h3>
+        <ul>
+          <li>The "what's the point of the game" question wasn't a motivation problem, it was a design hole. Couldn't pitch it because the choices didn't mean anything yet. Fixed the rule, the pitch wrote itself.</li>
+          <li>Free 3D asset packs (.blend files) are useless for a 2D game; need pre-rendered PNGs</li>
+          <li>Capturing game audio on bare ALSA (Void) is a pain; recorded the clip on the Mac instead</li>
+          <li>OBS quality: capture at native monitor res, not OS-downscaled</li>
+        </ul>
+        <h3>what's next</h3>
+        <ul>
+          <li>Finish auditing the tells on Stops 3-6</li>
+          <li>Build the consequence systems (start with headlight dimming)</li>
+          <li>Need more COMPLETE/leave stops</li>
+          <li>Playtest on a real person</li>
+        </ul>
+        <h3>how it felt</h3>
+        <p>Long session, mostly in my head instead of in the engine, but it's the most important the design has come together so far. The game makes sense now in a way it didn't this morning. Easier to build when you know what the thing actually is.</p>
+      </div>
+    </details>
+
+    <details class="logentry">
+      <summary>Day 08 <span class="log-date">May 30, 2026</span> &mdash; lighting, sound, and what the game actually is</summary>
+      <div class="logentry-body">
+        <h3>what I built</h3>
+        <ul>
+          <li>Full darkness/lighting pass: world is near-black via CanvasModulate, with a headlight glow (PointLight2D + custom radial gradient texture) on the truck, offset forward. You only see what the light touches.</li>
+          <li>Ambient sound bed: looping low drone + truck idle (AudioStreamPlayers, OGG for clean loops)</li>
+          <li>Positional per-stop audio: AudioStreamPlayer2D as a child of each stop, swells as the truck approaches</li>
+          <li>Stop 1 (breathing bags): breathing that fades up out of the dark</li>
+          <li>Stop 3 (doorframe): faint pencil scratch, the measuring still happening</li>
+          <li>Stop 4 (the chair): rope creak + buried squelch layered into one texture</li>
+          <li>Stop 5 (the freezer): the hum of an unplugged freezer that runs anyway</li>
+          <li>Future-proofed the dialogue box (taller, handles any text length)</li>
+          <li>Extended the road, repositioned stops to march up the route evenly</li>
+        </ul>
+        <h3>what I learned</h3>
+        <ul>
+          <li>CanvasModulate darkens the whole canvas; PointLight2D + a gradient texture carves visibility back out of it</li>
+          <li>AudioStreamPlayer (non-positional) for the ambient bed; AudioStreamPlayer2D (positional) for sounds tied to a place</li>
+          <li>OGG loops cleaner than MP3 (MP3 padding causes a seam); ffmpeg converts</li>
+          <li>Per-stop sounds need a big dB boost (+15 to +20) to cut through the ambient bed</li>
+          <li>You can layer two AudioStreamPlayer2Ds into one custom texture (the chair's creak + squelch)</li>
+          <li>The truest sound isn't always the most dramatic one; the freezer's mundane hum works only because the text says it's unplugged</li>
+        </ul>
+        <h3>the direction</h3>
+        <p>This was the session the game stopped being a mood and became a game. It's route-horror, or "witness horror": you drive a night-shift garbage route, and what you log stays real while what you don't fades. Every stop, you investigate and then decide, log it or leave it, and neither is ever the clean right answer. Logging keeps a thing real and binds you to it; leaving erases it and leaves a gap. Those choices feed hidden counters that decide which ending you get. It's not a gore game. It's about attention, and what happens when someone has been paying it to the wrong thing for too long.</p>
+        <h3>what's next</h3>
+        <ul>
+          <li>Stop 6, then wire the four hidden counters + endings (~6-7 stops is the threshold)</li>
+          <li>Chair/freezer already have sound; consider the jar staying deliberately silent</li>
+          <li>Steam page + wishlist once a stop is screenshot-ready</li>
+          <li>Housekeeping: delete unused MP3s from the repo (kept the OGGs)</li>
+        </ul>
+        <h3>how it felt</h3>
+        <p>The biggest single leap yet. Lighting and sound together turned four dark rectangles into a place that feels real in the dark. And the design finally has a spine; I know what the game is now, not just what it looks like. Long session, real momentum.</p>
+      </div>
+    </details>
+
+    <details class="logentry">
+      <summary>Day 07 <span class="log-date">May 29, 2026</span> &mdash; bulletproofing the dialogue box</summary>
+      <div class="logentry-body">
+        <h3>what I built</h3>
+        <ul>
+          <li>Converted the DialogueBox from fixed-position labels to a VBoxContainer; dialogue text now auto-fits and wraps at any length, and the three choices always reflow below it</li>
+          <li>Set autowrap + custom minimum size on the prompt label so wrapping works inside the container</li>
+          <li>Added separation spacing so the prompt and choices have breathing room</li>
+          <li>Repointed all nine get_node() calls in stop_point.gd to the new VBoxContainer path</li>
+          <li>Killed the text-overlap bug for good; any stop, any length, works now</li>
+        </ul>
+        <h3>what I learned</h3>
+        <ul>
+          <li>Containers vs fixed positions: a VBoxContainer stacks children automatically; fixed coordinates can't adapt to variable text</li>
+          <li>Autowrapping labels inside a container need a Custom Minimum Size or they can't resolve their own dimensions (width depends on height depends on width)</li>
+          <li>The scene tree is a filesystem: node paths work like terminal directories, and moving a node deeper changes its path</li>
+          <li>get_node() just fetches the node; the .text/.visible after is what acts on it. A wrong path returns null, and acting on null is what crashes it, same as "no such file" in the shell</li>
+          <li>Layout Mode has to be set to Anchors before the Full Rect preset appears, when the parent is a plain Control</li>
+          <li>Launching Godot from a terminal makes it a child process; closing the terminal kills it (use &amp; disown, or make a desktop launcher)</li>
+        </ul>
+        <h3>what's next</h3>
+        <ul>
+          <li>Build Stop 3, the doorframe (height marks climbing past 9 feet, DELLA, the future date), already written</li>
+          <li>Make a desktop launcher for Godot so it runs independent of the terminal</li>
+          <li>Add Drive-off consequence: stop fades if ignored enough times</li>
+          <li>Scott's depot note before route starts</li>
+        </ul>
+        <h3>how it felt</h3>
+        <p>Short session, single focus, and exactly the kind of unglamorous fix that pays off forever. No new content on screen, but the next eleven stops just got easier to build. Beat by the end of it, but the good kind of tired, where you fixed the thing the right way instead of the fast way.</p>
+      </div>
+    </details>
+
+    <details class="logentry">
+      <summary>Day 06 <span class="log-date">May 28, 2026</span> &mdash; reusable stops, the fingernail jar</summary>
+      <div class="logentry-body">
+        <h3>what I built</h3>
+        <ul>
+          <li>Got the whole project running on the Void Linux ThinkPad from scratch: kitty terminal, Godot, PATH, SSH keys, repo cloned, Vulkan drivers</li>
+          <li>Refactored stops into one reusable scene; dialogue, investigate pages, and log text all moved out of the script and onto each instance via @export</li>
+          <li>Stop content is now fully data-driven; the script holds zero specific words, everything comes from the Inspector</li>
+          <li>Log text pulled out of the script too (was hardcoded as Stop 1), now reads per-instance</li>
+          <li>Added stop_completed flag; stops can no longer be re-triggered and spam the log</li>
+          <li>Built Stop 2, Pruitt St., the fingernail jar. First stop written in the new tone</li>
+          <li>Fixed reading-mode arrow bug; arrows no longer re-show choices while paging investigate text</li>
+          <li>Set up Flameshot for screenshots, kitty as default terminal</li>
+        </ul>
+        <h3>what I learned</h3>
+        <ul>
+          <li>DRY / data-driven design: separate content from logic so you build the system once and reuse it, instead of copy-pasting 13 times</li>
+          <li>@export lifts a variable out of the script into the Inspector; @export_multiline gives a real text box; Array[String] gives a clean typed array editor</li>
+          <li>_input and _process fire on EVERY instance with that script; shared UI nodes need a per-instance "is_active" flag or instances fight over the same keypress</li>
+          <li>Behavior is the truth, not the editor tree: a missing disclosure arrow didn't mean a missing child; the collision worked at runtime</li>
+          <li>Inspector array fields take Enter as "confirm," so line breaks need a literal \n converted to real newlines in code</li>
+          <li>.godot/ belongs in gitignore; it's per-machine editor cache, never commit it</li>
+        </ul>
+        <h3>wins</h3>
+        <ul>
+          <li>Two working stops, each with its own content, sharing one clean script</li>
+          <li>The reusable system is real; Stop 3 onward is just "drop instance, fill text"</li>
+          <li>The fingernail jar is the first time the writing hit the exact register I'm chasing</li>
+          <li>Found and killed a shared-state input bug that would've poisoned every stop; only surfaced because I built a second instance</li>
+          <li>Full Linux dev environment standing on its own now</li>
+        </ul>
+        <h3>what's next</h3>
+        <ul>
+          <li>Convert DialogueBox to a VBoxContainer so text auto-fits and choices reflow at any length</li>
+          <li>Build Stop 3, keep pushing the tone</li>
+          <li>Add Drive-off consequence: stop fades if ignored enough times</li>
+          <li>Scott's depot note before route starts</li>
+        </ul>
+        <h3>how it felt</h3>
+        <p>A grind, but the good kind. Spent most of the night on setup and a refactor that doesn't show on screen, but that invisible work is exactly what lets the next twelve stops go fast. The jar was the payoff. When I drove up and read it back in-game, it landed exactly the way I wanted. That's the whole game in one stop.</p>
+      </div>
+    </details>
+
+    <details class="logentry">
+      <summary>Day 05 <span class="log-date">May 27, 2026</span> &mdash; the camera finally works</summary>
+      <div class="logentry-body">
+        <h3>what I built</h3>
+        <ul>
+          <li>In-game clock: starts at 23:00 and ticks forward in real time as you drive</li>
+          <li>Night counter displayed in top-left alongside the clock</li>
+          <li>Camera node finally working: attached to GameWorld, follows truck via _physics_process</li>
+          <li>Stop 1 complete: full paging system, all three choices functional</li>
+          <li>Investigate branch shows the full note across 5 pages, press E to advance</li>
+          <li>Road length adjusted so movement feels correct</li>
+          <li>Visible collision shapes debug helped identify positioning issues</li>
+        </ul>
+        <h3>what I learned</h3>
+        <ul>
+          <li>Context matters for movement: without landmarks a moving object looks stationary</li>
+          <li>Camera2D works correctly on Mac; it was always a Linux display issue</li>
+          <li>lerp for smooth camera following</li>
+          <li>%02d:%02d string formatting for displaying time with leading zeros</li>
+          <li>Area2D CollisionShape2D position is relative to its parent node</li>
+          <li>Keeping collision shapes away from the player spawn point</li>
+        </ul>
+        <h3>wins</h3>
+        <ul>
+          <li>Camera works</li>
+          <li>Full first stop working end to end: drive up, read, choose, consequence</li>
+          <li>The note pages through cleanly</li>
+          <li>Game is starting to feel like something real</li>
+          <li>Night counter and clock give the UI life</li>
+        </ul>
+        <h3>what's next</h3>
+        <ul>
+          <li>Build Stop 2, Pruitt St.</li>
+          <li>Make stops reusable scenes instead of duplicated scripts</li>
+          <li>Add Drive-off consequence: stop fades if ignored enough times</li>
+          <li>Scott's depot note before route starts</li>
+        </ul>
+        <h3>how it felt</h3>
+        <p>Frustrating first half, satisfying second half. The camera working after days of fighting it was a genuine relief. The note paging through on screen was cool.</p>
+      </div>
+    </details>
+
+    <details class="logentry">
+      <summary>Day 04 <span class="log-date">May 26, 2026</span> &mdash; the choice system + the log</summary>
+      <div class="logentry-body">
+        <h3>what I built</h3>
+        <ul>
+          <li>Choice system working: Log it, Investigate, Drive off at each stop point</li>
+          <li>Cursor navigates up and down with arrow keys, E to select</li>
+          <li>GameLog autoload/singleton: persistent global script that saves entries across the game</li>
+          <li>Truck log UI: press I to open, shows all logged entries, press I to close</li>
+          <li>Input cooldown variable to prevent cursor flying past options</li>
+          <li>Share Tech Mono font applied to all UI elements</li>
+          <li>Blue panel background for truck log (keeping it for now, has character)</li>
+        </ul>
+        <h3>what I learned</h3>
+        <ul>
+          <li>Local vs class variables: var inside a function creates a temporary variable; without var it uses the class-level one. This bit me when the dialogue box wasn't showing.</li>
+          <li>Autoload/Singleton in Godot: scripts that run globally and persist across scenes. Registered in Project Settings → Globals</li>
+          <li>match statement: Godot's switch/case, cleaner than multiple if/elif</li>
+          <li>Input cooldown pattern: a boolean to prevent is_key_pressed from firing every frame</li>
+          <li>_input(event): fires exactly once per keypress, better than _process for toggles</li>
+          <li>Arrays: adding with append(), reading with get_entries()</li>
+          <li>for entry in entries: looping through an array</li>
+        </ul>
+        <h3>wins</h3>
+        <ul>
+          <li>Full game loop working: drive → stop → choose → log → open log → read entries</li>
+          <li>GameLog persists correctly</li>
+          <li>Three videos posted total</li>
+          <li>Patreon live with 6 tiers</li>
+          <li>The game feels real now, not just a tech demo</li>
+        </ul>
+        <h3>what's next</h3>
+        <ul>
+          <li>Make choices do different things: Investigate shows second dialogue, Drive off has consequences</li>
+          <li>Add Pruitt St. stop</li>
+          <li>Add Scott's stop</li>
+          <li>Start making UI look better</li>
+          <li>Second stop point on the route</li>
+        </ul>
+        <h3>how it felt</h3>
+        <p>Best session yet. Things worked. The truck-log moment, pressing I and seeing your logged entry sitting there in amber text, felt like a game. Rough as hell but real.</p>
+      </div>
+    </details>
+
+    <details class="logentry">
+      <summary>Day 03 <span class="log-date">May 25, 2026</span> &mdash; first interaction loop, amber dialogue box</summary>
+      <div class="logentry-body">
+        <h3>what I built</h3>
+        <ul>
+          <li>Rebuilt scene cleanly after yesterday's mess</li>
+          <li>Road and StopPoint added correctly</li>
+          <li>Stop point trigger working: truck stops when it hits the Area2D</li>
+          <li>Dialogue box built with Panel and Label inside a CanvasLayer</li>
+          <li>Amber monospace font (Share Tech Mono) installed and applied to the dialogue box</li>
+          <li>Text reads like a real dispatch log entry</li>
+          <li>Press E to dismiss the box and continue driving</li>
+          <li>Set up Godot on the Mac Mini and my old T480s, with SSH keys</li>
+          <li>Posted a TikTok video</li>
+        </ul>
+        <h3>what I learned</h3>
+        <ul>
+          <li>Local vs class variables: putting var inside a function creates a temporary variable that disappears; leaving out var uses the class-level one. This caused the dialogue box not to appear.</li>
+          <li>get_tree().get_root().get_node(): how scripts reference nodes elsewhere in the scene</li>
+          <li>body.can_move = false: how two scripts talk to each other</li>
+          <li>CanvasLayer keeps UI fixed on screen regardless of where the truck is</li>
+          <li>How to import custom fonts into Godot</li>
+        </ul>
+        <h3>wins</h3>
+        <p>First complete interaction loop working; it actually feels like a video game now. The dialogue box looks atmospheric with the amber terminal font. Troubleshot multiple issues and got them corrected. I'm actually learning this stuff and really enjoying it.</p>
+        <h3>what's next</h3>
+        <ul>
+          <li>Style the dialogue box border</li>
+          <li>Add multiple stop points with different dialogue</li>
+          <li>Start building the truck log system</li>
+          <li>Figure out the camera bug eventually</li>
+          <li>Record more content</li>
+        </ul>
+        <h3>how it felt</h3>
+        <p>Felt awesome. I feel like I can actually do this. The dialogue box moment was great.</p>
+      </div>
+    </details>
+
+    <details class="logentry">
+      <summary>Day 02 <span class="log-date">May 24, 2026</span> &mdash; the camera bug begins, Patreon goes live</summary>
+      <div class="logentry-body">
+        <h3>what I worked on</h3>
+        <p>Spent the entire session troubleshooting a Camera2D bug in Godot. Any Camera2D node in the scene, whether parented to the Truck or to GameWorld, completely breaks vertical movement. Left and right work fine but up and down stop working entirely. Still unsolved. Posted to r/godot for help.</p>
+        <p>Rebuilt the scene multiple times trying to isolate the issue. Ended up back at square one with just a working truck on a black background. No road, no stop point.</p>
+        <h3>what I learned</h3>
+        <ul>
+          <li>CharacterBody2D needs move_and_slide in _physics_process, not _process</li>
+          <li>Camera2D can interfere with CharacterBody2D movement in ways that aren't fully understood yet</li>
+          <li>ColorRect is fine as a visual node; it wasn't causing the physics issues</li>
+          <li>How to convert mkv to mp4 with ffmpeg</li>
+          <li>Basic OBS setup on Linux</li>
+        </ul>
+        <h3>wins</h3>
+        <ul>
+          <li>Truck moves in all four directions without camera</li>
+          <li>Posted first TikTok video</li>
+          <li>Set up Patreon</li>
+          <li>Ordered dock, keyboard, and mouse</li>
+        </ul>
+        <h3>what's next</h3>
+        <ul>
+          <li>Fix audio levels in OBS</li>
+          <li>Rebuild road and stop point</li>
+          <li>Get text box appearing when truck hits stop point</li>
+          <li>Figure out the camera bug</li>
+        </ul>
+        <h3>how it felt</h3>
+        <p>Frustrating. Spent more time fighting tools than building the game. But posted the first video anyway, which felt scary and good at the same time.</p>
+        <h3>the bigger picture</h3>
+        <p>Started a Patreon and TikTok today. Nervous about it, but I did it, and posted once on each. I'm hoping this starts something. I want it to make money, sure, but if it takes off in the right way I want to give a lot of it back: random giveaways big enough to let someone take a sabbatical from work or school to pursue game-making or writing for a year. There's so much creative space out there, and enough of us who love these things to pay for them, that it's possible. Might pan out to nothing. In the meantime I'm teaching myself game development, and I believe I'll get a game on Steam. All in, stomping the gas.</p>
+      </div>
+    </details>
+
+    <details class="logentry">
+      <summary>Day 01 <span class="log-date">May 23, 2026</span> &mdash; the first truck moves</summary>
+      <div class="logentry-body">
+        <p>Worked with Godot for the first time. Got my first "truck" created and used GDScript to make it move.</p>
+        <p>Hit some static with the movement once I ran the code and had to troubleshoot, but eventually got it moving up, down, left and right with the WASD keys.</p>
+        <h3>next session</h3>
+        <ul>
+          <li>Dark background so it looks like a night street</li>
+          <li>A road to drive down</li>
+          <li>A stop point the truck reaches</li>
+          <li>A text prompt that appears when you hit the stop</li>
+        </ul>
+      </div>
+    </details>
   </main>
 
   <footer class="foot">
