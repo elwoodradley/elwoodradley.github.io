@@ -180,6 +180,57 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 2.4rem 0; }
   white-space: pre-wrap;
 }
 
+/* ---- collapsible poems (details/summary, no JS) ---- */
+
+.poem {
+  border: 1px solid var(--rule);
+  background: var(--bg-panel);
+  margin: 0 0 0.8rem;
+}
+
+/* the clickable title bar */
+.poem > summary {
+  cursor: pointer;
+  list-style: none;            /* hide default triangle (most browsers) */
+  padding: 0.85rem 1.1rem;
+  color: var(--green);
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.poem > summary::-webkit-details-marker { display: none; } /* hide triangle, Safari */
+
+/* our own marker: + when closed, − when open */
+.poem > summary::before {
+  content: "+";
+  color: var(--amber);
+  font-size: 1.1rem;
+  width: 1ch;
+  display: inline-block;
+}
+.poem[open] > summary::before { content: "\2212"; } /* minus sign */
+
+.poem > summary:hover { color: var(--amber); }
+.poem > summary:hover::before { color: var(--green); }
+
+/* the poem body, revealed when open */
+.poem .poem-body {
+  padding: 0 1.1rem 1.2rem 1.6rem;
+  white-space: pre-wrap;
+  color: var(--text);
+  border-top: 1px solid var(--rule);
+  margin-top: 0;
+  padding-top: 1rem;
+}
+
+.poem > summary:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: -2px;
+}
+
 /* ---- footer ---- */
 
 footer.foot {
